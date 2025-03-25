@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 
-function Card() {
-  const [data, setData] = useState(null);
-
+function Card({handleCardClick}) {
+  const [data, setData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('https://flipkart-email-mock.vercel.app/');
         const eData = await response.json();
-        setData(eData);
+        setData(eData.list);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -16,13 +15,11 @@ function Card() {
 
     fetchData();
   }, []);
-  if (!data || !data.list) {
-    return <div>Loading...</div>;
-  }
+
   return (
-    <div>
-      {data.list.map((ele,index)=>(
-        <div key={index} className='flex flex-row mt-3'>
+    <>
+      {data.map((ele,index)=>(
+        <div key={index} className='flex flex-row mt-3 p-4 border border-gray-400' onClick={()=>handleCardClick(ele.id)}>
           <div className=' ml-5 mr-5 mb-10'>
           <div className='w-[50px] h-[50px] rounded-full bg-[#e54065] text-white font-bold uppercase flex justify-center items-center'>
             {ele.from.name.slice(0, 1)} </div>
@@ -37,15 +34,40 @@ function Card() {
        </div>
       ))}
       
-    </div>
+    </>
   )
 }
 
 
 function App() {
+  const [eData, setEData] = useState([]);
+  const [clicked, setClicked] = useState(false); 
+  function handleCardClick(id){
+    // console.log("card is clicked : ",id); 
+    setClicked(true);
+      const fetchData = async () => {
+        try {
+          const response = await  fetch(`https://flipkart-email-mock.vercel.app/?id=${id}`)
+          const eDescription = await response.json();
+          setEData(eDescription.body);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+  
+      fetchData();
+     
+    };
+    
   return (
     <>
-      <Card />
+     {!clicked ?(
+     <Card handleCardClick ={handleCardClick} />
+      ) :(
+        <div className='flex flex-row'>
+      <div className='flex flex-1/3 flex-col'><Card handleCardClick ={handleCardClick} /> </div>
+      <div className='flex'><pre>{JSON.stringify(eData, null, 2)}</pre></div>
+    </div>)}
     </>
   );
 }
