@@ -35,15 +35,18 @@ function Nav({ filterEmails }) {
     </div>
   );
 }
-
-function Card({ handleCardClick, emails, favorites }) {
+function Card({ handleCardClick, emails, favorites, clickedId }) {
   return (
     <div className="flex flex-col gap-3 p-5">
       {emails.map((ele, index) => (
         <div
           key={index}
-          className={`flex flex-row p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer border-[#CFD2DC] ${
-            ele.read ?'bg-white' : ' bg-[#f2f2f2]'
+          className={`flex flex-row p-4 border-2 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer ${
+            clickedId === ele.id 
+              ? 'border-[#E54065]' 
+              : 'border-[#CFD2DC]'
+          } ${
+            ele.read ? 'bg-white' : 'bg-[#f2f2f2]'
           }`}
           onClick={() => handleCardClick(ele.id, ele.subject, ele.date, ele.from.name, ele)}
         >
@@ -53,13 +56,15 @@ function Card({ handleCardClick, emails, favorites }) {
             </div>
           </div>
           <div className="flex flex-col flex-grow">
-            <div className="font-semibold ">From: <span className="font-bold">{ele.from.name}</span></div>
-            <div className="font-semibold ">Subject: <span className="font-bold">{ele.subject}</span></div>
-            <div className="text-sm ">{ele.short_description}</div>
-            <div className="text-xs  mt-1">{new Date(ele.date).toLocaleString()}</div>
-            {favorites.includes(ele.id) && (
-              <span className="mt-1 text-xs text-[#E54065] font-semibold">Favorite</span>
-            )}
+            <div className="font-semibold">From: <span className="font-bold">{ele.from.name}</span></div>
+            <div className="font-semibold">Subject: <span className="font-bold">{ele.subject}</span></div>
+            <div className="text-sm">{ele.short_description}</div>
+            <div className='flex flex-row gap-4'> 
+              <div className="text-xs mt-1">{new Date(ele.date).toLocaleString()}</div>
+              {favorites.includes(ele.id) && (
+                <span className="mt-1 text-xs text-[#E54065] font-semibold">Favorite</span>
+              )}
+            </div>
           </div>
         </div>
       ))}
@@ -98,7 +103,7 @@ function EmailContent({ eData, loading, favorites, addToFav }) {
             }
           `}</style>
           <div 
-            className="email-content text-sm whitespace-pre-wrap break-words"
+            className="email-content text-sm whitespace-pre-wrap break-words  ml-20"
             dangerouslySetInnerHTML={{ __html: eData.body }}
           />
         </div>
@@ -189,12 +194,13 @@ function App() {
       <h1 className='flex justify-center text-4xl py-4 '>Email</h1>
       <Nav filterEmails={filterEmails} />
       {!clicked || viewingFavorites ? (
-        <Card handleCardClick={handleCardClick} emails={filteredEmails} favorites={favorites} />
-      ) : (
-        <div className="flex flex-1/3 flex-row ">
-          <div className="flex flex-col w-1/3">
-            <Card handleCardClick={handleCardClick} emails={filteredEmails} favorites={favorites} />
-          </div>
+  <Card 
+    handleCardClick={handleCardClick}  emails={filteredEmails} favorites={favorites} clickedId={clickedId}/>
+  ) : (
+  <div className="flex flex-1/3 flex-row">
+    <div className="flex flex-col w-1/3">
+      <Card handleCardClick={handleCardClick} emails={filteredEmails} favorites={favorites} clickedId={clickedId}/>
+    </div>
           <div className="flex flex-1 mt-5 rounded-md border border-[#CFD2DC] bg-white ml-4 mr-4">
             <EmailContent 
               eData={eData} 
