@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 function Nav({ filterEmails }) {
   return (
-    <div className="flex items-center gap-4 p-4  border-b border-[#CFD2DC]">
+    <div className="flex items-center gap-4 px-20 py-3 border-[#CFD2DC]">
       <label className=" font-medium">Filter By:</label>
       <button 
   onClick={() => filterEmails('all')}
@@ -37,7 +37,7 @@ function Nav({ filterEmails }) {
 }
 function Card({ handleCardClick, emails, favorites, clickedId }) {
   return (
-    <div className="flex flex-col gap-3 p-5">
+    <div className="flex flex-col gap-3 px-20">
       {emails.map((ele, index) => (
         <div
           key={index}
@@ -191,7 +191,6 @@ function App() {
 
   return (
     <div className=" min-h-screen">
-      <h1 className='flex justify-center text-4xl py-4 '>Email</h1>
       <Nav filterEmails={filterEmails} />
       {!clicked || viewingFavorites ? (
   <Card 
