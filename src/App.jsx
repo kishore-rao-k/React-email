@@ -2,72 +2,64 @@ import { useState, useEffect } from 'react';
 
 function Nav({ filterEmails }) {
   return (
-    <div className="flex items-center gap-4 p-4 bg-white shadow-sm border-b border-[#CFD2DC]">
-      <label className="text-[#636363] font-medium">Filter By:</label>
+    <div className="flex items-center gap-4 p-4  border-b border-[#CFD2DC]">
+      <label className=" font-medium">Filter By:</label>
       <button 
-        onClick={() => filterEmails('all')}
-        className="px-4 py-2 rounded-md text-[#636363] bg-[#F4F5F9] border border-[#CFD2DC] hover:bg-[#1E4EA] hover:text-white transition"
-      >
-        Show All
-      </button>
+  onClick={() => filterEmails('all')}
+  className="px-4 py-2 rounded-3xl  border border-transparent 
+             hover:bg-[#E1E4EA] hover:border-[#CFD2DC]"
+>
+  Show All
+</button>
       <button 
         onClick={() => filterEmails('unread')}
-        className="px-4 py-2 rounded-md text-[#636363] bg-[#F4F5F9] border border-[#CFD2DC] hover:bg-[#1E4EA] hover:text-white transition"
+        className="px-4 py-2 rounded-3xl  border border-transparent 
+             hover:bg-[#E1E4EA] hover:border-[#CFD2DC]"
       >
         Unread
       </button>
       <button 
         onClick={() => filterEmails('read')}
-        className="px-4 py-2 rounded-md text-[#636363] bg-[#F4F5F9] border border-[#CFD2DC] hover:bg-[#1E4EA] hover:text-white transition"
+        className="px-4 py-2 rounded-3xl  border border-transparent 
+             hover:bg-[#E1E4EA] hover:border-[#CFD2DC]"
       >
         Read
       </button>
       <button 
         onClick={() => filterEmails('favorites')}
-        className="px-4 py-2 rounded-md text-[#636363] bg-[#F4F5F9] border border-[#CFD2DC] hover:bg-[#1E4EA] hover:text-white transition"
+        className="px-4 py-2 rounded-3xl  border border-transparent 
+             hover:bg-[#E1E4EA] hover:border-[#CFD2DC]"
       >
         Favorites
       </button>
     </div>
   );
 }
+
 function Card({ handleCardClick, emails, favorites }) {
   return (
-    <div className="flex flex-col gap-4 p-6 bg-[#F4F5F9] rounded-lg">
+    <div className="flex flex-col gap-3 p-5">
       {emails.map((ele, index) => (
         <div
           key={index}
-          className={`flex items-center p-4 border border-[#CFD2DC] rounded-lg shadow-sm hover:shadow-md transition cursor-pointer ${
-            ele.read ? 'bg-[#2F2F2F] text-white' : 'bg-white'
+          className={`flex flex-row p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer border-[#CFD2DC] ${
+            ele.read ?'bg-white' : ' bg-[#f2f2f2]'
           }`}
           onClick={() => handleCardClick(ele.id, ele.subject, ele.date, ele.from.name, ele)}
         >
-          <div className="w-12 h-12 flex justify-center items-center rounded-full bg-[#E54065] text-white font-bold">
-            {ele.from.name.slice(0, 1)}
+          <div className="mr-4">
+            <div className="w-15 h-15 rounded-full text-2xl bg-[#E54065] text-white font-bold uppercase flex justify-center items-center">
+              {ele.from.name.slice(0, 1)}
+            </div>
           </div>
-          <div className="ml-4 flex-grow">
-            <div className={`font-semibold text-lg ${ele.read ? 'text-white' : 'text-[#636363]'}`}>
-              {ele.from.name}
-            </div>
-            <div className={`text-sm ${ele.read ? 'text-gray-300' : 'text-[#636363]'}`}>
-              {`<${ele.from.email}>`}
-            </div>
-            <div className={`mt-1 text-lg font-medium ${ele.read ? 'text-white' : 'text-[#636363]'}`}>
-              {ele.subject}
-            </div>
-            <div className={`text-sm ${ele.read ? 'text-gray-300' : 'text-[#636363]'}`}>
-              {ele.short_description}
-            </div>
-            <div className="flex items-center mt-1">
-              <div className={`text-xs ${ele.read ? 'text-gray-400' : 'text-[#636363]'}`}>
-                {new Date(ele.date).toLocaleString()}
-              </div>
-              {favorites.includes(ele.id) && (
-                <span className="ml-2 text-xs text-[#E54065] font-semibold">
-                  Favorite
-                </span>
-              )}
-            </div>
+          <div className="flex flex-col flex-grow">
+            <div className="font-semibold ">From: <span className="font-bold">{ele.from.name}</span></div>
+            <div className="font-semibold ">Subject: <span className="font-bold">{ele.subject}</span></div>
+            <div className="text-sm ">{ele.short_description}</div>
+            <div className="text-xs  mt-1">{new Date(ele.date).toLocaleString()}</div>
+            {favorites.includes(ele.id) && (
+              <span className="mt-1 text-xs text-[#E54065] font-semibold">Favorite</span>
+            )}
           </div>
         </div>
       ))}
@@ -81,17 +73,17 @@ function EmailContent({ eData, loading, favorites, addToFav }) {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
           {eData?.fromName && (
-            <div className="w-12 h-12 flex justify-center items-center rounded-full bg-[#E54065] text-white font-bold">
+            <div className="w-15 h-15 flex justify-center items-center text-2xl uppercase rounded-full bg-[#E54065] text-white font-bold">
               {eData.fromName.slice(0, 1)}
             </div>
           )}
           <div>
-            {eData?.subject && <div className="text-xl font-semibold text-[#636363]">{eData.subject}</div>}
-            {eData?.date && <div className="text-xs text-[#636363]">{new Date(eData.date).toLocaleString()}</div>}
+            {eData?.subject && <div className="text-xl font-semibold ">{eData.subject}</div>}
+            {eData?.date && <div className="text-xs ">{new Date(eData.date).toLocaleString()}</div>}
           </div>
         </div>
         <button 
-          className="px-4 py-2 bg-[#1E4EA] text-white rounded-md hover:bg-[#1E4EA]/90 transition"
+          className="px-4 py-2 bg-[#E54065] text-white rounded-md hover:bg-[#D12D52] transition"
           onClick={addToFav}
         >
           {favorites.includes(eData?.id) ? "Unmark as Favorite" : "Mark as Favorite"}
@@ -192,15 +184,14 @@ function App() {
     }
   }
 
-
   return (
-    <div className="bg-[#F4F5F9] min-h-screen">
-      <h1 className='flex justify-center text-4xl py-4 text-[#636363]'>Email</h1>
+    <div className=" min-h-screen">
+      <h1 className='flex justify-center text-4xl py-4 '>Email</h1>
       <Nav filterEmails={filterEmails} />
       {!clicked || viewingFavorites ? (
         <Card handleCardClick={handleCardClick} emails={filteredEmails} favorites={favorites} />
       ) : (
-        <div className="flex flex-1/3 flex-row bg-[#F4F5F9]">
+        <div className="flex flex-1/3 flex-row ">
           <div className="flex flex-col w-1/3">
             <Card handleCardClick={handleCardClick} emails={filteredEmails} favorites={favorites} />
           </div>
@@ -217,4 +208,5 @@ function App() {
     </div>
   );
 }
+
 export default App;
