@@ -66,7 +66,11 @@ function App() {
       ) :(
         <div className='flex flex-row'>
       <div className='flex flex-1/3 flex-col'><Card handleCardClick ={handleCardClick} /> </div>
-      <div className='flex'><pre>{JSON.stringify(eData, null, 2)}</pre></div>
+      <div className='flex justify-center'>
+  <div className='bg-gray-100 p-4 rounded-md shadow-lg max-w-4xl w-full'>
+    <pre className='text-sm text-gray-800 whitespace-pre-wrap break-words'>{JSON.stringify(eData, null, 2)}</pre>
+  </div>
+</div>
     </div>)}
     </>
   );
