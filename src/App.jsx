@@ -9,7 +9,6 @@ function App() {
   const [filteredEmails, setFilteredEmails] = useState([]);
   const [clicked, setClicked] = useState(false);
   const [clickedId, setClickedId] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [eData, setEData] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [viewingFavorites, setViewingFavorites] = useState(false);
@@ -31,7 +30,6 @@ function App() {
   function handleCardClick(id, subject, date, fromName, emailData) {
     setClicked(true);
     setClickedId(id);
-    setLoading(true);
     setEData({ ...emailData, subject, date, fromName });
 
     setEmails(prevEmails =>
@@ -47,9 +45,7 @@ function App() {
         setEData(prevState => ({ ...prevState, body: details.body }));
       } catch (error) {
         console.error('Error fetching email details:', error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
     fetchEmailDetails();
   }
@@ -95,7 +91,6 @@ function App() {
           <div className="flex flex-1 mt-5 rounded-md border border-[#CFD2DC] bg-white ml-4 mr-4">
             <EmailContent 
               eData={eData} 
-              loading={loading} 
               favorites={favorites} 
               addToFav={addToFav} 
             />

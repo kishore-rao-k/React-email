@@ -20,7 +20,8 @@ function Card({ handleCardClick, emails, favorites, clickedId }) {
               </div>
             </div>
             <div className="flex flex-col flex-grow">
-              <div className="font-semibold">From: <span className="font-bold">{ele.from.name}</span></div>
+            <div className="font-semibold"> From: <span className="font-bold"> {ele.from.name.charAt(0).toUpperCase() + ele.from.name.slice(1)} 
+                {` <${ele.from.email}>`}</span></div>
               <div className="font-semibold">Subject: <span className="font-bold">{ele.subject}</span></div>
               <div className="text-sm">{ele.short_description}</div>
               <div className='flex flex-row gap-4'> 

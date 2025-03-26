@@ -1,5 +1,5 @@
 
-function EmailContent({ eData, loading, favorites, addToFav }) {
+function EmailContent({ eData, favorites, addToFav }) {
   return (
     <div className="w-full p-6 bg-white border border-[#CFD2DC] rounded-lg shadow-sm">
       <div className="flex justify-between items-center">
@@ -21,7 +21,7 @@ function EmailContent({ eData, loading, favorites, addToFav }) {
           {favorites.includes(eData?.id) ? "Unmark as Favorite" : "Mark as Favorite"}
         </button>
       </div>
-      {eData?.body && !loading && (
+      {eData?.body  && (
         <div className="mt-6">
           <style>{`
             .email-content p {
