@@ -15,7 +15,7 @@ function EmailContent({ eData, favorites, addToFav }) {
           </div>
         </div>
         <button 
-          className="px-4 py-2 bg-[#E54065] text-white rounded-md hover:bg-[#D12D52] transition"
+          className="px-4 py-2 bg-[#E54065] text-white rounded-3xl hover:bg-[#D12D52] transition"
           onClick={addToFav}
         >
           {favorites.includes(eData?.id) ? "Unmark as Favorite" : "Mark as Favorite"}
