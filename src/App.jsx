@@ -51,7 +51,7 @@ function App() {
   }
 
   const addToFav = () => {
-    if (eData?.id) {
+    if (eData.id) {
       setFavorites(prev =>
         prev.includes(eData.id)
           ? prev.filter(favId => favId !== eData.id)
