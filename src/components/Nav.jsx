@@ -5,7 +5,7 @@ function Nav({ filterEmails }) {
         <button 
     onClick={() => filterEmails('all')}
     className="px-4 py-2 rounded-3xl  border border-transparent 
-               hover:bg-[#E1E4EA] hover:border-[#CFD2DC]"
+               hover:bg-[#E1E4EA] hover:border-[#CFD2DC] "
   >
     Show All
   </button>

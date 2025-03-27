@@ -1,7 +1,7 @@
 
-function EmailContent({ eData, favorites, addToFav }) {
+function EmailContent({ eData,loading, favorites, addToFav }) {
   return (
-    <div className="w-full p-6 bg-white border border-[#CFD2DC] rounded-lg shadow-sm">
+    <div className="w-full p-6 pr-20 rounded-md border border-[#CFD2DC] bg-white">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
           {eData.fromName && (
@@ -21,20 +21,28 @@ function EmailContent({ eData, favorites, addToFav }) {
           {favorites.includes(eData.id) ? "Unmark as Favorite" : "Mark as Favorite"}
         </button>
       </div>
-      {eData.body  && (
-        <div className="mt-6">
-          <style>{`
-            .email-content p {
-              margin-bottom: 1rem;
-              color: #636363;
-            }
-          `}</style>
-          <div 
-            className="email-content text-sm whitespace-pre-wrap break-words  ml-20"
-            dangerouslySetInnerHTML={{ __html: eData.body }}
-          />
-        </div>
-      )}
+      {loading ? (
+  <div className="mt-6 ml-20 animate-pulse">
+    <div className="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
+    <div className="h-4 bg-gray-300 rounded w-2/3 mb-2"></div>
+    <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+  </div>
+) : (
+  eData.body && (
+    <div className="mt-6">
+      <style>{`
+        .email-content p {
+          margin-bottom: 1rem;
+          color: #636363;
+        }
+      `}</style>
+      <div
+        className="email-content text-sm whitespace-pre-wrap break-words ml-20"
+        dangerouslySetInnerHTML={{ __html: eData.body }}
+      />
+    </div>
+  )
+)}
     </div>
   );
 }

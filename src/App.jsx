@@ -9,9 +9,11 @@ function App() {
   const [filteredEmails, setFilteredEmails] = useState([]);
   const [clicked, setClicked] = useState(false);
   const [clickedId, setClickedId] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [eData, setEData] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [viewingFavorites, setViewingFavorites] = useState(false);
+  
 
   useEffect(() => {
     const fetchEmails = async () => {
@@ -26,10 +28,11 @@ function App() {
     };
     fetchEmails();
   }, []);
-
+  
   function handleCardClick(id, subject, date, fromName, emailData) {
     setClicked(true);
     setClickedId(id);
+    setLoading(true);
     setEData({ ...emailData, subject, date, fromName });
 
     setEmails(prevEmails =>
@@ -37,7 +40,7 @@ function App() {
         email.id === id ? { ...email, read: true } : email
       )
     );
-
+   
     const fetchEmailDetails = async () => {
       try {
         const response = await fetch(`https://flipkart-email-mock.vercel.app/?id=${id}`);
@@ -45,10 +48,12 @@ function App() {
         setEData(prevState => ({ ...prevState, body: details.body }));
       } catch (error) {
         console.error('Error fetching email details:', error);
-      } 
+      }  finally {
+        setLoading(false);
+      }
     };
     fetchEmailDetails();
-  }
+}
 
   const addToFav = () => {
     if (eData.id) {
@@ -88,9 +93,10 @@ function App() {
     <div className="flex flex-col w-1/3">
       <Card handleCardClick={handleCardClick} emails={filteredEmails} favorites={favorites} clickedId={clickedId}/>
     </div>
-          <div className="flex flex-1 mt-5 rounded-md border border-[#CFD2DC] bg-white ml-4 mr-4">
+          <div className="flex flex-1 rounded-md border border-[#CFD2DC] bg-white m-5 ml-3">
             <EmailContent 
               eData={eData} 
+              loading={loading} 
               favorites={favorites} 
               addToFav={addToFav} 
             />
