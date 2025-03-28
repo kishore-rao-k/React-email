@@ -13,22 +13,7 @@ function App() {
   const [eData, setEData] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [viewingFavorites, setViewingFavorites] = useState(false);
-  
 
-  useEffect(() => {
-    const fetchEmails = async () => {
-      try {
-        const response = await fetch('https://flipkart-email-mock.vercel.app/emails');
-        const data = await response.json();
-        setEmails(data.list.map(email => ({ ...email, read: false, favorite: false })));
-        setFilteredEmails(data.list);
-      } catch (error) {
-        console.error('Error fetching emails:', error);
-      }
-    };
-    fetchEmails();
-  }, []);
-  
   function handleCardClick(id, subject, date, fromName, emailData) {
     setClicked(true);
     setClickedId(id);
@@ -40,20 +25,7 @@ function App() {
         email.id === id ? { ...email, read: true } : email
       )
     );
-   
-    const fetchEmailDetails = async () => {
-      try {
-        const response = await fetch(`https://flipkart-email-mock.vercel.app/?id=${id}`);
-        const details = await response.json();
-        setEData(prevState => ({ ...prevState, body: details.body }));
-      } catch (error) {
-        console.error('Error fetching email details:', error);
-      }  finally {
-        setLoading(false);
-      }
-    };
-    fetchEmailDetails();
-}
+  }
 
   const addToFav = () => {
     if (eData.id) {
@@ -82,6 +54,36 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    const fetchEmails = async () => {
+      try {
+        const response = await fetch('https://flipkart-email-mock.vercel.app/emails');
+        const data = await response.json();
+        setEmails(data.list.map(email => ({ ...email, read: false, favorite: false })));
+        setFilteredEmails(data.list);
+      } catch (error) {
+        console.error('Error fetching emails:', error);
+      }
+    };
+    fetchEmails();
+  }, []);
+  
+
+  useEffect(()=>{
+    const fetchEmailDetails = async () => {
+      try {
+        const response = await fetch(`https://flipkart-email-mock.vercel.app/?id=${clickedId}`);
+        const details = await response.json();
+        setEData(prevState => ({ ...prevState, body: details.body }));
+      } catch (error) {
+        console.error('Error fetching email details:', error);
+      }  finally {
+        setLoading(false);
+      }
+    };
+    fetchEmailDetails();
+  },[clickedId])
+  
   return (
     <div className=" min-h-screen">
       <Nav filterEmails={filterEmails} />
