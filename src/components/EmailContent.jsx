@@ -1,5 +1,5 @@
 
-function EmailContent({ eData,loading, favorites, addToFav }) {
+function EmailContent({ eData,loading,error, favorites, addToFav }) {
   return (
     <div className="w-full p-6 pr-20 rounded-md border border-[#CFD2DC] bg-white">
       <div className="flex justify-between items-center">
@@ -27,7 +27,7 @@ function EmailContent({ eData,loading, favorites, addToFav }) {
     <div className="h-4 bg-gray-300 rounded w-2/3 mb-2"></div>
     <div className="h-4 bg-gray-300 rounded w-1/2"></div>
   </div>
-) : (
+) : error ? <h1>{error}</h1> :(
   eData.body && (
     <div className="mt-6">
       <style>{`
